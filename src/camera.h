@@ -4,6 +4,7 @@
 
 #include "color.h"
 #include "hittable.h"
+#include "material.h"
 
 #include <iostream>
 #include <fstream>
@@ -81,8 +82,15 @@ class camera {
                 // Swap between these two methods to view diffent diffuse renderers 
                 // effects on the lighting of the scene.
                 // vec3 direction = random_on_hemisphere(rec.normal);
-                vec3 direction = rec.normal + random_unit_vector(); //Lambertian distribution
-                return 0.1 * ray_color(ray(rec.p, direction), depth-1, world);
+                // vec3 direction = rec.normal + random_unit_vector(); //Lambertian distribution
+                // return 0.1 * ray_color(ray(rec.p, direction), depth-1, world);
+
+                ray scattered;
+                color attenuantion;
+                if(rec.mat->scatter(r, rec, attenuantion, scattered)){
+                    return attenuantion * ray_color(scattered, depth-1, world);
+                }
+                return color(0,0,0);
             }
 
             vec3 unit_direction = unit_vector(r.direction());
