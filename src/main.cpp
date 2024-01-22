@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <chrono>
 
 
 
@@ -24,12 +25,17 @@ int main(int argc, char const *argv[])
     //Camera
     camera cam;
 
-    cam.aspect_ratio = 16.0 / 9.0;
-    cam.image_width = 400;
+    cam.aspect_ratio      = 16.0 / 9.0;
+    cam.image_width       = 400;
     cam.samples_per_pixel = 100;
+    cam.max_depth         = 50;
 
+    auto t1 = std::chrono::high_resolution_clock::now();
     cam.render(world, output_file, "image.ppm");
-   
+    auto t2 = std::chrono::high_resolution_clock::now();
+
+    std::chrono::duration<double, std::milli> ms_double = t2-t1;
+    std::cout << ms_double.count() << "ms\n";
 
     return 0;
 }
