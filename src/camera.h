@@ -23,7 +23,7 @@ class camera {
             output << "P3\n" << image_width << ' ' << image_height << "\n255\n";
             
             for(int j=0; j< image_height; ++j){
-                std::clog << "\rScanlines remaining: " << (image_height - j) << ' ' << std::flush;
+                std::cout << "\rScanlines remaining: " << (image_height - j) << ' ' << std::flush;
                 for(int i =0; i< image_width; ++i){
                     color pixel_color(0,0,0);
                     for(int sample = 0; sample < samples_per_pixel; ++sample){
@@ -35,7 +35,7 @@ class camera {
                 }
             }
             output.close();
-            std::clog << "\rDone.               \n";
+            std::cout << "\rDone.               \n";
         }
 
     private:
@@ -79,12 +79,6 @@ class camera {
             }
 
             if(world.hit(r, interval(0.001, infinity), rec)){
-                // Swap between these two methods to view diffent diffuse renderers 
-                // effects on the lighting of the scene.
-                // vec3 direction = random_on_hemisphere(rec.normal);
-                // vec3 direction = rec.normal + random_unit_vector(); //Lambertian distribution
-                // return 0.1 * ray_color(ray(rec.p, direction), depth-1, world);
-
                 ray scattered;
                 color attenuantion;
                 if(rec.mat->scatter(r, rec, attenuantion, scattered)){
