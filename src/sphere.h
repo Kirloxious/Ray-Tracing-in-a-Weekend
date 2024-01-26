@@ -33,6 +33,7 @@ class sphere : public hittable {
             rec.set_face_normal(r, outward_normal);
             rec.mat = mat;
 
+
             return true;
         }
 
